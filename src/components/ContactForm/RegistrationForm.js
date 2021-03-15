@@ -29,11 +29,14 @@ class RegistrationForm extends Component {
 
   render() {
     const { email, password } = this.state;
+    const { title } = this.props;
 
     return (
       <Form onSubmit={this.handleSubmit} className="RegistrationForm">
+        <h2>{title}</h2>
+
         <Form.Group controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
+          <Form.Label>Ваш emeil</Form.Label>
           <Form.Control
             type="email"
             placeholder="Enter email"
@@ -47,7 +50,7 @@ class RegistrationForm extends Component {
         </Form.Group>
 
         <Form.Group controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
+          <Form.Label>Пароль</Form.Label>
           <Form.Control
             type="password"
             placeholder="Password"

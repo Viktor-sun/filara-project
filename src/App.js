@@ -1,24 +1,55 @@
 import React, { Component } from "react";
 import { Button } from "react-bootstrap";
 import shortid from "shortid";
-// import RegistrationForm from "./components/ContactForm";
+import firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/database";
+import RegistrationForm from "./components/ContactForm";
 import Carousel from "./components/Carousel";
 import DataList from "./components/DataList";
 
 class App extends Component {
   state = {
-    registration: null,
-    exitsToJob: [
-      { id: shortid.generate(), name: "viktor", date: "10.02.2021" },
-      { id: shortid.generate(), name: "viktor", date: "11.02.2021 " },
-      { id: shortid.generate(), name: "anna", date: "14.02.2021 " },
-      { id: shortid.generate(), name: "andre", date: "14.05.2021 " },
-      { id: shortid.generate(), name: "andre", date: "14.03.2021 " },
-    ],
+    hasAccount: false,
+    toggleRegistrationForm: true,
+
+    exitsToJob: [],
   };
 
+  componentDidMount() {
+    const db = firebase.database();
+    db.ref("exits").on("value", (elem) => {
+      if (elem) {
+        this.setState({ exitsToJob: Object.values(elem.val()) });
+      }
+    });
+
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        // User is signed in.
+        this.setState({ hasAccount: true });
+      } else {
+        // No user is signed in.
+      }
+    });
+  }
+
   submitForm = (data) => {
-    this.setState({ registration: data });
+    const { email, password } = data;
+
+    if (this.state.toggleRegistrationForm) {
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then(() => this.setState({ hasAccount: true }))
+        .catch((e) => alert(e));
+    } else {
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(() => this.setState({ hasAccount: true }))
+        .catch((e) => alert(e));
+    }
   };
 
   handleOnClick = (e) => {
@@ -26,17 +57,11 @@ class App extends Component {
     const time = new Date().toLocaleTimeString();
     const date = new Date().toLocaleDateString();
 
-    this.setState((prevState) => {
-      return {
-        exitsToJob: [
-          ...prevState.exitsToJob,
-          {
-            id: shortid.generate(),
-            name,
-            date: `Добавленно: ${time} ${date}`,
-          },
-        ],
-      };
+    const db = firebase.database();
+    db.ref("exits").push({
+      id: shortid.generate(),
+      name,
+      date: `Добавленно: ${time} ${date}`,
     });
   };
 
@@ -46,43 +71,78 @@ class App extends Component {
     }
   };
 
+  handleToggleRegistrationButton = () => {
+    this.setState((prevState) => {
+      return { toggleRegistrationForm: !prevState.toggleRegistrationForm };
+    });
+  };
+
   render() {
+    const { toggleRegistrationForm, hasAccount } = this.state;
     const nameViktor = this.getFilterByName("viktor");
     const nameAnna = this.getFilterByName("anna");
     const nameAndre = this.getFilterByName("andre");
 
     return (
       <>
-        {/* <RegistrationForm onSubmit={this.submitForm} /> */}
-        <Carousel />
-        <section>
-          <div>
-            <h2>Витёчек</h2>
-            <p>{nameViktor.length}</p>
-            <DataList name={nameViktor} />
-            <Button variant="primary" id="viktor" onClick={this.handleOnClick}>
-              Secondary
+        {!hasAccount ? (
+          <>
+            <Button
+              variant="primary"
+              onClick={this.handleToggleRegistrationButton}
+            >
+              {!toggleRegistrationForm ? "Зарегистрироваться" : "Войти"}
             </Button>
-          </div>
+            <RegistrationForm
+              onSubmit={this.submitForm}
+              title={toggleRegistrationForm ? "Зарегистрироваться" : "Войти"}
+            />
+          </>
+        ) : (
+          <>
+            <Carousel />
+            <section>
+              <div>
+                <h2>Витёчек</h2>
+                <p>{nameViktor.length}</p>
+                <DataList name={nameViktor} />
+                <Button
+                  variant="primary"
+                  id="viktor"
+                  onClick={this.handleOnClick}
+                >
+                  Secondary
+                </Button>
+              </div>
 
-          <div>
-            <h2>Анчик</h2>
-            <p>{nameAnna.length}</p>
-            <DataList name={nameAnna} />
-            <Button variant="primary" id="anna" onClick={this.handleOnClick}>
-              Secondary
-            </Button>
-          </div>
+              <div>
+                <h2>Анчик</h2>
+                <p>{nameAnna.length}</p>
+                <DataList name={nameAnna} />
+                <Button
+                  variant="primary"
+                  id="anna"
+                  onClick={this.handleOnClick}
+                >
+                  Secondary
+                </Button>
+              </div>
 
-          <div>
-            <h2>Андрюша</h2>
-            <p>{nameAndre.length}</p>
-            <DataList name={nameAndre} />
-            <Button variant="primary" id="andre" onClick={this.handleOnClick}>
-              Secondary
-            </Button>
-          </div>
-        </section>
+              <div>
+                <h2>Андрюша</h2>
+                <p>{nameAndre.length}</p>
+                <DataList name={nameAndre} />
+                <Button
+                  variant="primary"
+                  id="andre"
+                  onClick={this.handleOnClick}
+                >
+                  Secondary
+                </Button>
+              </div>
+            </section>
+          </>
+        )}
       </>
     );
   }
