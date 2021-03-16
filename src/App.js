@@ -4,6 +4,7 @@ import shortid from "shortid";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/database";
+import { CSSTransition } from "react-transition-group";
 import RegistrationForm from "./components/ContactForm";
 import Carousel from "./components/Carousel";
 import DataList from "./components/DataList";
@@ -200,7 +201,13 @@ class App extends Component {
               </div>
             </section>
             <Footer />
-            {showModal && (
+
+            <CSSTransition
+              in={showModal}
+              timeout={250}
+              classNames="fade"
+              unmountOnExit
+            >
               <Modal onCloseModal={this.handleCloseOverlay}>
                 <ModalInfoOn
                   info={
@@ -212,7 +219,7 @@ class App extends Component {
                   }
                 />
               </Modal>
-            )}
+            </CSSTransition>
           </>
         )}
       </>
