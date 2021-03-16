@@ -1,6 +1,10 @@
 .DataList {
   padding: 0;
+  padding-top: 10px;
   margin: 20px 0;
+  height: 300px;
+  overflow: auto;
+  border-top: 1px solid;
 }
 
 .DataList__item {
