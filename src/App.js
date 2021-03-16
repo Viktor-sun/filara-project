@@ -8,12 +8,18 @@ import RegistrationForm from "./components/ContactForm";
 import Carousel from "./components/Carousel";
 import DataList from "./components/DataList";
 import Footer from "./components/Footer";
+import Modal from "./components/Modal";
+import ModalInfoOn from "./components/ModalInfoOn";
 import "./App.css";
+import * as info from "./info/infoByWorkers";
 
 class App extends Component {
   state = {
     hasAccount: false,
     toggleRegistrationForm: true,
+    showModal: false,
+
+    getInfo: null,
 
     exitsToJob: [],
   };
@@ -79,8 +85,28 @@ class App extends Component {
     });
   };
 
+  toggleModal = () => {
+    this.setState((prevState) => ({ showModal: !prevState.showModal }));
+  };
+
+  handleOpenOverlay = (e) => {
+    this.toggleModal();
+    const infoFrom = e.target.id;
+    this.setState({ getInfo: infoFrom });
+  };
+
+  handleCloseOverlay = () => {
+    this.toggleModal();
+    this.setState({ getInfo: null });
+  };
+
   render() {
-    const { toggleRegistrationForm, hasAccount } = this.state;
+    const {
+      toggleRegistrationForm,
+      hasAccount,
+      showModal,
+      getInfo,
+    } = this.state;
     const nameViktor = this.getFilterByName("viktor");
     const nameAnna = this.getFilterByName("anna");
     const nameAndre = this.getFilterByName("andre");
@@ -107,7 +133,16 @@ class App extends Component {
             <h1 className="heroTite">Работнички &#128516;</h1>
             <section className="App">
               <div className="name-wrapper name-wrapper__viktor">
+                <button
+                  type="button"
+                  id="InfoFromViktor"
+                  className="App__button-info"
+                  onClick={this.handleOpenOverlay}
+                >
+                  тык
+                </button>
                 <h2 className="App__title">Витёчек &#128526;</h2>
+
                 <p className="App__count">{nameViktor.length} часов</p>
                 <Button
                   variant="primary"
@@ -121,6 +156,14 @@ class App extends Component {
               </div>
 
               <div className="name-wrapper name-wrapper__anna">
+                <button
+                  type="button"
+                  id="InfoFromAnna"
+                  className="App__button-info"
+                  onClick={this.handleOpenOverlay}
+                >
+                  тык
+                </button>
                 <h2 className="App__title">Анчик &#128584;</h2>
                 <p className="App__count">{nameAnna.length} часов</p>
                 <Button
@@ -135,6 +178,14 @@ class App extends Component {
               </div>
 
               <div className="name-wrapper name-wrapper__andre">
+                <button
+                  className="App__button-info"
+                  type="button"
+                  id="InfoFromAndre"
+                  onClick={this.handleOpenOverlay}
+                >
+                  тык
+                </button>
                 <h2 className="App__title">Андрюша &#128540;</h2>
                 <p className="App__count">{nameAndre.length} часов</p>
                 <Button
@@ -149,6 +200,19 @@ class App extends Component {
               </div>
             </section>
             <Footer />
+            {showModal && (
+              <Modal onCloseModal={this.handleCloseOverlay}>
+                <ModalInfoOn
+                  info={
+                    getInfo === "InfoFromViktor"
+                      ? info.infoByViktor
+                      : getInfo === "InfoFromAnna"
+                      ? info.infoByAnna
+                      : info.infoByAndre
+                  }
+                />
+              </Modal>
+            )}
           </>
         )}
       </>

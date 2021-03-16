@@ -36,6 +36,13 @@
   font-size: 40px;
 }
 
+.App__button-info {
+  display: flex;
+  margin-left: auto;
+  border-radius: 40%;
+  font-size: 20px;
+}
+
 .App__count {
   text-align: center;
   font-size: 50px;
