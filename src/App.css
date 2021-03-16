@@ -1,0 +1,48 @@
+.heroTite {
+  margin: 30px 0;
+  text-align: center;
+  font-size: 60px;
+  font-weight: 700;
+  text-shadow: 12px 10px 20px darkgray;
+}
+
+.App {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding-bottom: 30px;
+}
+
+.name-wrapper {
+  padding: 10px;
+  margin: 10px;
+  border-radius: 7px;
+}
+
+.name-wrapper__viktor {
+  background-color: #74b7b9;
+}
+
+.name-wrapper__anna {
+  background-color: #fbdaaf;
+}
+
+.name-wrapper__andre {
+  background-color: #78b987;
+}
+
+.App__title {
+  text-align: center;
+  font-size: 40px;
+}
+
+.App__count {
+  text-align: center;
+  font-size: 50px;
+  font-weight: 600;
+}
+
+.App__button {
+  display: block;
+  margin: 0 auto;
+}

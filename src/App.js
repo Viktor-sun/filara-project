@@ -7,6 +7,8 @@ import "firebase/database";
 import RegistrationForm from "./components/ContactForm";
 import Carousel from "./components/Carousel";
 import DataList from "./components/DataList";
+import Footer from "./components/Footer";
+import "./App.css";
 
 class App extends Component {
   state = {
@@ -101,46 +103,52 @@ class App extends Component {
         ) : (
           <>
             <Carousel />
-            <section>
-              <div>
-                <h2>Витёчек</h2>
-                <p>{nameViktor.length}</p>
-                <DataList name={nameViktor} />
+
+            <h1 className="heroTite">Работнички &#128516;</h1>
+            <section className="App">
+              <div className="name-wrapper name-wrapper__viktor">
+                <h2 className="App__title">Витёчек &#128526;</h2>
+                <p className="App__count">{nameViktor.length} часов</p>
                 <Button
                   variant="primary"
                   id="viktor"
+                  className="App__button"
                   onClick={this.handleOnClick}
                 >
-                  Secondary
+                  Добавить час
                 </Button>
+                <DataList name={nameViktor} />
               </div>
 
-              <div>
-                <h2>Анчик</h2>
-                <p>{nameAnna.length}</p>
-                <DataList name={nameAnna} />
+              <div className="name-wrapper name-wrapper__anna">
+                <h2 className="App__title">Анчик &#128584;</h2>
+                <p className="App__count">{nameAnna.length} часов</p>
                 <Button
                   variant="primary"
                   id="anna"
+                  className="App__button"
                   onClick={this.handleOnClick}
                 >
-                  Secondary
+                  Добавить час
                 </Button>
+                <DataList name={nameAnna} />
               </div>
 
-              <div>
-                <h2>Андрюша</h2>
-                <p>{nameAndre.length}</p>
-                <DataList name={nameAndre} />
+              <div className="name-wrapper name-wrapper__andre">
+                <h2 className="App__title">Андрюша &#128540;</h2>
+                <p className="App__count">{nameAndre.length} часов</p>
                 <Button
                   variant="primary"
                   id="andre"
+                  className="App__button"
                   onClick={this.handleOnClick}
                 >
-                  Secondary
+                  Добавить час
                 </Button>
+                <DataList name={nameAndre} />
               </div>
             </section>
+            <Footer />
           </>
         )}
       </>

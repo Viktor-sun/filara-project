@@ -1,0 +1,25 @@
+.DataList {
+  padding: 0;
+  margin: 20px 0;
+}
+
+.DataList__item {
+  display: flex;
+  align-items: baseline;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.DataList__item:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.DataList__item::before {
+  content: "";
+  display: inline-block;
+  margin-right: 15px;
+  width: 15px;
+  height: 15px;
+  background-color: #fff;
+  border-radius: 50%;
+}
