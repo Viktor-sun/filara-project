@@ -1,7 +1,9 @@
 .ModalInfoOn {
   padding: 20px;
+  margin: auto;
   max-width: 600px;
   width: 90%;
+  border-radius: 40px;
   background-color: #fff;
 
   font-size: 25px;
