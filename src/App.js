@@ -76,7 +76,7 @@ class App extends Component {
 
   getFilterByName = (name) => {
     if (this.state.exitsToJob) {
-      return this.state.exitsToJob.filter((e) => e.name === name);
+      return this.state.exitsToJob.filter((e) => e.name === name).reverse();
     }
   };
 
