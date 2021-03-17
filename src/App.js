@@ -96,11 +96,6 @@ class App extends Component {
     this.setState({ getInfo: infoFrom });
   };
 
-  handleCloseOverlay = () => {
-    this.toggleModal();
-    this.setState({ getInfo: null });
-  };
-
   render() {
     const {
       toggleRegistrationForm,
@@ -208,7 +203,7 @@ class App extends Component {
               classNames="fade"
               unmountOnExit
             >
-              <Modal onCloseModal={this.handleCloseOverlay}>
+              <Modal onCloseModal={this.toggleModal}>
                 <ModalInfoOn
                   info={
                     getInfo === "InfoFromViktor"
